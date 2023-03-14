@@ -11,29 +11,30 @@ class Comunicacao:
         self.write_fifo = write_fifo
         self.read_fifo = read_fifo
 
-    def criar_canal(self, nome):
-        os.mkfifo(nome)
+    def criar_canal(self, filename):
+        os.mkfifo(filename)
 
-    def remover_canal(self, nome):
-        os.unlink(nome)
+    def remover_canal(self, filename):
+        os.unlink(filename)
 
-    def ler_canal(self):
+    def ler_canal(self, filename):
         pass
 
-    def escrever_canal(self):
+    def escrever_canal(self, filename, msg):
         pass
 
 class Servidor(Comunicacao):
     def __init__(self, write_fifo, read_fifo):
         super().__init__(write_fifo=write_fifo, read_fifo=read_fifo)
-        self.ler_canal(read_fifo)
-        self.remover_canal(read_fifo)
+        self.criar_canal(self.read_fifo)
+        self.ler_canal(self.read_fifo)
+        self.remover_canal(self.read_fifo)
 
     def gerar_id(self):
         return random.randint(1, 1000)
 
-    def ler_canal(self, nome):
-        e = os.open(nome, os.O_RDONLY)
+    def ler_canal(self, filename):
+        e = os.open(filename, os.O_RDONLY)
         msg = os.read(e, 128).decode('utf-8')
 
         print(f'Recebido: "{msg}"')
@@ -42,11 +43,11 @@ class Servidor(Comunicacao):
 class Cliente(Comunicacao):
     def __init__(self, write_fifo, read_fifo):
         super().__init__(write_fifo=write_fifo, read_fifo=read_fifo)
-        self.escrever_canal(write_fifo)
+        self.escrever_canal(write_fifo, b'oi')
 
-    def escrever_canal(self, nome):
-        e = os.open(nome, os.O_WRONLY)
-        os.write(e, b'oi')
+    def escrever_canal(self, filename, msg):
+        e = os.open(filename, os.O_WRONLY)
+        os.write(e, msg)
 
 
 if __name__ == "__main__":
