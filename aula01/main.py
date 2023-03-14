@@ -78,10 +78,10 @@ def servidor():
 
 def cliente():
     e = os.open('canal', os.O_WRONLY)
-    os.write(e, bytes('c1', 'utf-8'))
+    os.write(e, bytes(sys.argv[2], 'utf-8'))
 
-    os.mkfifo('c1')
-    a = os.open('c1', os.O_RDONLY)
+    os.mkfifo(sys.argv[2])
+    a = os.open(sys.argv[2], os.O_RDONLY)
 
     msg = os.read(a, 128).decode('utf-8')
 
