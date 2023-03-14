@@ -71,8 +71,6 @@ def servidor():
 
     print(f'Recebido: "{msg}"')
 
-    os.mkfifo(msg)
-
     e = os.open(msg, os.O_WRONLY)
     os.write(e, bytes(str(gerar_id()), 'utf-8'))
 
