@@ -65,8 +65,8 @@ def gerar_id():
 
 
 def servidor():
-    os.mkfifo('canal')
     while True:
+        os.mkfifo('canal')
         e = os.open('canal', os.O_RDONLY)
         msg = os.read(e, 128).decode('utf-8')
 
