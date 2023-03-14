@@ -82,6 +82,7 @@ def cliente():
     e = os.open('canal', os.O_WRONLY)
     os.write(e, bytes('c1', 'utf-8'))
 
+    os.mkfifo('c1')
     a = os.open('c1', os.O_RDONLY)
 
     msg = os.read(a, 128).decode('utf-8')
