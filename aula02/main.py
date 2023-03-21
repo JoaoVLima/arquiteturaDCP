@@ -13,6 +13,7 @@ class Conexao:
 
 class Cliente(Conexao):
     def __init__(self, nome: str):
+        super().__init__()
         self.nome = nome
 
     def get(self, key, prefix: bool = False, is_return_dict: bool = False):
