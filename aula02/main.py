@@ -1,22 +1,14 @@
 #!/usr/bin/env python3
 
 import sys
-import os
-import ast
 import etcd3
 
 
-class Conexao:
+class Etcd:
     def __init__(self):
         self.etcd = etcd3.client(host='localhost', port=2379)
 
-
-class Cliente(Conexao):
-    def __init__(self, nome: str):
-        super().__init__()
-        self.nome = nome
-
-    def get(self, key, prefix: bool = False, is_return_dict: bool = False):
+    def get(self, key, prefix: bool = False):
         if prefix:
             value, metadata = self.etcd.get_prefix(key_prefix=str(key))
         else:
@@ -24,9 +16,6 @@ class Cliente(Conexao):
 
         value = value.decode('utf-8')
         metadata = metadata.key.decode('utf-8')
-
-        if is_return_dict:
-            value = ast.literal_eval(value)
 
         return value
 
@@ -38,12 +27,33 @@ class Cliente(Conexao):
         return True
 
 
-if __name__ == "__main__":
-    nome_cliente = 'candidatoA'
-    if len(sys.argv) > 1:
-        nome_cliente = sys.argv[1]
+class LeaderElection(Etcd):
+    def __init__(self, election_name):
+        super().__init__()
+        self.election_name = election_name
+        self.leader_key = f'/{self.election_name}/leader'
+        self.candidates_key = f'/{self.election_name}/candidates/'
 
-    cliente = Cliente(nome=nome_cliente)
+    def get_leader(self):
+        leader_name = self.get(self.leader_key)
+        return leader_name
+
+
+class Candidate(LeaderElection):
+    def __init__(self, election_name):
+        super().__init__(election_name=election_name)
+
+
+
+
+if __name__ == "__main__":
+    election_name = 'election'
+    candidate_name = 'A'
+    if len(sys.argv) > 1:
+        election_name = sys.argv[1]
+        candidate_name = sys.argv[2]
+
+    cliente = Candidate(election_name=election_name)
     cliente.put('teste', 'valor')
     cliente.put('teste2', {'lider': 'A'})
     teste = cliente.get('teste')
