@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import random
 import sys
 import uuid
 
@@ -55,7 +55,7 @@ class Etcd:
 
     def acquire_lease(self, ttl=60, lease_id=None):
         if not lease_id:
-            lease_id = uuid.uuid4()
+            lease_id = random.randint(100_000, 999_999)  # uuid.uuid4() would be better
         self.lease = self.etcd.lease(ttl=ttl, lease_id=lease_id)
 
     def refresh_lease(self):
@@ -96,7 +96,7 @@ if __name__ == "__main__":
 
     cliente = Candidate(election_name=election_name)
     cliente.put('teste', 'valor')
-    cliente.put('teste2', {'lider': 'A'})
+    cliente.put('teste2', 'asd')
     teste = cliente.get('teste')
     teste2 = cliente.get('teste2')
 
