@@ -12,11 +12,11 @@ import etcd3
 
 
 class Etcd:
-    def __init__(self, lease_connection=True):
+    def __init__(self, lease_connection=True, lease_ttl=60):
         self.etcd = etcd3.client(host='localhost', port=2379)
         self.lease = None
         if lease_connection:
-            self.acquire_lease()
+            self.acquire_lease(ttl=lease_ttl)
 
     def get(self, key: str, prefix: bool = False, return_kv: bool = False):
         if prefix:
