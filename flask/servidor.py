@@ -26,5 +26,8 @@ class EcoIF(Resource):
 api.add_resource(EcoIF, "/eco", "/eco/<string:msg>")
 
 if __name__ == '__main__':
+    port = 1512
+    if len(sys.argv) > 1:
+        port = sys.argv[1]
     app.env = 'development'
-    app.run(port=1512, debug=True)
+    app.run(port=port, debug=True)
