@@ -19,11 +19,12 @@ class EcoIF(Resource):
     def get(self):
         return {'cont': eco.cont}
 
-def patch(self, msg):
-    return {'resp': eco.diga(msg)}
+    def patch(self, msg):
+        return {'resp': eco.diga(msg)}
 
 
 api.add_resource(EcoIF, "/eco", "/eco/<string:msg>")
+
 if __name__ == '__main__':
     app.env = 'development'
     app.run(port=1512, debug=True)
