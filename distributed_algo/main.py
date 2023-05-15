@@ -16,6 +16,7 @@ class Componente:
         self.aguardar_mensagem()
 
     def criar_filas(self):
+        print(f'Criando as filas {self.identificador} e {self.lista_vizinhos}')
         self.canal.queue_declare(queue=self.identificador, auto_delete=True)
 
         for vizinho in self.lista_vizinhos:
