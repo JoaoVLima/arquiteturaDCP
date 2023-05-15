@@ -38,7 +38,7 @@ class Componente:
     def espalhar_mensagem(self, mensagem, fofocador=None):
         lista_vizinhos = self.lista_vizinhos
 
-        if fofocador:
+        if fofocador and fofocador in lista_vizinhos:
             lista_vizinhos.remove(fofocador)
 
         mensagem = f'{self.identificador}:{mensagem}'.encode()
