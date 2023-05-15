@@ -22,6 +22,7 @@ class Componente:
             self.canal.queue_declare(queue=vizinho, auto_delete=True)
 
     def aguardar_mensagem(self):
+        print(f'Aguardando Mensagem no {self.identificador}')
         self.canal.basic_consume(queue=self.identificador, on_message_callback=self.callback_mensagem, auto_ack=True)
 
         try:
