@@ -36,7 +36,7 @@ class Componente:
         self.canal.basic_publish(exchange="", routing_key=vizinho, body=mensagem)
 
     def espalhar_mensagem(self, mensagem, fofocador=None):
-        lista_vizinhos = self.lista_vizinhos
+        lista_vizinhos = self.lista_vizinhos[:]
 
         if fofocador and fofocador in lista_vizinhos:
             lista_vizinhos.remove(fofocador)
