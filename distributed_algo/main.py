@@ -11,6 +11,8 @@ class Componente:
         self.conexao = BlockingConnection()
         self.canal = self.conexao.channel()
 
+        self.mensagens_recebidas = []
+
         self.criar_filas()
 
         self.aguardar_mensagem()
@@ -41,11 +43,12 @@ class Componente:
         if fofocador and fofocador in lista_vizinhos:
             lista_vizinhos.remove(fofocador)
 
-        mensagem = f'{self.identificador}:{mensagem}'.encode()
+        mensagem_composta = f'{self.identificador}:{mensagem}'.encode()
 
         for vizinho in lista_vizinhos:
-            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem)
+            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta)
 
+        self.mensagens_recebidas.append(mensagem)
 
     def callback_mensagem(self, ch, method, properties, body):
         mensagem_composta = body.decode().split(':', maxsplit=1)
@@ -58,7 +61,10 @@ class Componente:
 
         print(f'Recebendo mensagem "{mensagem}" do {fofocador}')
 
-        self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
+        if mensagem in self.mensagens_recebidas:
+            print(f'Mensagem já enviada anteriormente')
+        else:
+            self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
 
 
 
