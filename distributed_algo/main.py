@@ -2,7 +2,6 @@
 
 # Aluno: João Victor de Lima
 
-
 from sys import argv
 from pika import BlockingConnection
 
