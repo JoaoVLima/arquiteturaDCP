@@ -17,6 +17,8 @@ class Componente:
 
         self.aguardar_mensagem(callback=self.recebendo)
 
+        self.teste = True
+
     def criar_filas(self):
         print(f'Criando as filas {self.identificador} e {self.lista_vizinhos}')
         self.canal.queue_declare(queue=self.identificador, auto_delete=True)
@@ -66,6 +68,10 @@ class Componente:
             print(f'Mensagem já enviada anteriormente: {mensagem_composta}')
         else:
             print(f'teste {mensagem_composta} - {self.mensagens_recebidas}')
+            if self.teste:
+                self.teste=False
+            else:
+                return -1
             self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
 
 
