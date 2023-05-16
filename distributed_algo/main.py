@@ -12,7 +12,6 @@ class Componente:
         self.canal = self.conexao.channel()
 
         self.mensagens_recebidas = []
-        self.teste = True
 
         self.criar_filas()
 
@@ -51,7 +50,7 @@ class Componente:
         for vizinho in lista_vizinhos:
             self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta)
 
-        self.mensagens_recebidas.append(mensagem_composta)
+        self.mensagens_recebidas.append(f'{fofocador}:{mensagem}')
         print(f'lista atual = {self.mensagens_recebidas}')
 
     def recebendo(self, ch, method, properties, body):  #Recebendo
@@ -69,11 +68,6 @@ class Componente:
         if mensagem_composta in self.mensagens_recebidas:
             print(f'Mensagem já enviada anteriormente: {mensagem_composta}')
         else:
-            print(f'teste {mensagem_composta} - {self.mensagens_recebidas}')
-            if self.teste:
-                self.teste=False
-            else:
-                return -1
             self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
 
 
