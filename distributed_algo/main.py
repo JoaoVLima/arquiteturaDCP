@@ -35,7 +35,7 @@ class Componente:
 
     def enviar_mensagem(self, vizinho, mensagem):
         print(f'Enviando mensagem "{mensagem}" para {vizinho}')
-        self.canal.basic_publish(exchange="", routing_key=vizinho, body=mensagem)
+        self.canal.basic_publish(exchange="", routing_key=vizinho, body=mensagem.encode())
 
     def espalhar_mensagem(self, mensagem, fofocador=None):
         lista_vizinhos = self.lista_vizinhos[:]
@@ -46,7 +46,7 @@ class Componente:
         mensagem_composta = f'{self.identificador}:{mensagem}'
 
         for vizinho in lista_vizinhos:
-            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta.encode())
+            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta)
 
         self.mensagens_recebidas.append(mensagem_composta)
 
@@ -65,6 +65,7 @@ class Componente:
         if mensagem_composta in self.mensagens_recebidas:
             print(f'Mensagem já enviada anteriormente: {mensagem_composta}')
         else:
+            print(f'teste {mensagem_composta} - {self.mensagens_recebidas}')
             self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
 
 
