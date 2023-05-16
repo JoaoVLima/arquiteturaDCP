@@ -51,13 +51,14 @@ class Componente:
         self.mensagens_recebidas.append(mensagem_composta)
 
     def recebendo(self, ch, method, properties, body):  #Recebendo
-        mensagem_composta = body.decode().split(':', maxsplit=1)
+        mensagem_composta = body.decode()
+        mensagem_composta_split = mensagem_composta.split(':', maxsplit=1)
 
-        if len(mensagem_composta) < 2:
+        if len(mensagem_composta_split) < 2:
             fofocador = 'NULL'
-            mensagem = mensagem_composta[0]
+            mensagem = mensagem_composta_split[0]
         else:
-            fofocador, mensagem = mensagem_composta
+            fofocador, mensagem = mensagem_composta_split
 
         print(f'Recebendo mensagem "{mensagem}" do {fofocador}')
 
