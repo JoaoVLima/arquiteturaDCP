@@ -61,8 +61,8 @@ class Componente:
 
         print(f'Recebendo mensagem "{mensagem}" do {fofocador}')
 
-        if mensagem in self.mensagens_recebidas:
-            print(f'Mensagem já enviada anteriormente')
+        if mensagem_composta in self.mensagens_recebidas:
+            print(f'Mensagem já enviada anteriormente: {mensagem_composta}')
         else:
             self.espalhar_mensagem(fofocador=fofocador, mensagem=mensagem)
 
