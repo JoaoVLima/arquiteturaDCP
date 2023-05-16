@@ -43,12 +43,12 @@ class Componente:
         if fofocador and fofocador in lista_vizinhos:
             lista_vizinhos.remove(fofocador)
 
-        mensagem_composta = f'{self.identificador}:{mensagem}'.encode()
+        mensagem_composta = f'{self.identificador}:{mensagem}'
 
         for vizinho in lista_vizinhos:
-            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta)
+            self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta.encode())
 
-        self.mensagens_recebidas.append(mensagem)
+        self.mensagens_recebidas.append(mensagem_composta)
 
     def recebendo(self, ch, method, properties, body):  #Recebendo
         mensagem_composta = body.decode().split(':', maxsplit=1)
