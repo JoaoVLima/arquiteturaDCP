@@ -12,12 +12,13 @@ class Componente:
         self.canal = self.conexao.channel()
 
         self.mensagens_recebidas = []
+        self.teste = True
 
         self.criar_filas()
 
         self.aguardar_mensagem(callback=self.recebendo)
 
-        self.teste = True
+
 
     def criar_filas(self):
         print(f'Criando as filas {self.identificador} e {self.lista_vizinhos}')
