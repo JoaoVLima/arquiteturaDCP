@@ -15,7 +15,7 @@ class Componente:
 
         self.criar_filas()
 
-        self.aguardar_mensagem()
+        self.aguardar_mensagem(callback=self.recebendo)
 
     def criar_filas(self):
         print(f'Criando as filas {self.identificador} e {self.lista_vizinhos}')
@@ -24,9 +24,9 @@ class Componente:
         for vizinho in self.lista_vizinhos:
             self.canal.queue_declare(queue=vizinho, auto_delete=True)
 
-    def aguardar_mensagem(self):
+    def aguardar_mensagem(self, callback):
         print(f'Aguardando Mensagem no {self.identificador}')
-        self.canal.basic_consume(queue=self.identificador, on_message_callback=self.callback_mensagem, auto_ack=True)
+        self.canal.basic_consume(queue=self.identificador, on_message_callback=callback, auto_ack=True)
 
         try:
             self.canal.start_consuming()
@@ -50,7 +50,7 @@ class Componente:
 
         self.mensagens_recebidas.append(mensagem)
 
-    def callback_mensagem(self, ch, method, properties, body):
+    def recebendo(self, ch, method, properties, body):  #Recebendo
         mensagem_composta = body.decode().split(':', maxsplit=1)
 
         if len(mensagem_composta) < 2:
