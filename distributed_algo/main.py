@@ -52,6 +52,7 @@ class Componente:
             self.enviar_mensagem(vizinho=vizinho, mensagem=mensagem_composta)
 
         self.mensagens_recebidas.append(mensagem_composta)
+        print(f'lista atual = {self.mensagens_recebidas}')
 
     def recebendo(self, ch, method, properties, body):  #Recebendo
         mensagem_composta = body.decode()
